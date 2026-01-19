@@ -69,58 +69,41 @@ export default function App() {
                       lineHeight: '1.5'
                     }}
                   >
-                    {selectedCommune.taxType === 'TLV' ? 'Conditions d\'application de la TLV' : 'Conditions d\'application de la THLV'}
+                    Conditions d'application de la {selectedCommune.taxType}
                   </h6>
                   
-                  {selectedCommune.taxType === 'TLV' ? (
-                    <>
-                      <ul className="list-disc list-inside space-y-2 mb-6" style={{ color: 'var(--foreground)' }}>
+                  <ul className="list-disc list-inside space-y-2 mb-6" style={{ color: 'var(--foreground)' }}>
+                    {selectedCommune.taxType === 'TLV' && (
+                      <>
                         <li>Le logement doit être vacant depuis au moins 1 an au 1er janvier de l'année d'imposition</li>
-                        <li>La taxe s'applique aux résidences secondaires et logements vacants</li>
-                        <li>Taux : 17% de la valeur locative la première année, 34% les années suivantes</li>
-                        <li>La TLV est due même si le logement est mis en vente ou en location</li>
-                      </ul>
-                      
-                      <h6 
-                        className="mb-2"
-                        style={{
-                          color: 'var(--foreground)',
-                          fontSize: 'var(--text-base)',
-                          fontWeight: 'var(--font-weight-medium)',
-                          lineHeight: '1.5'
-                        }}
-                      >
-                        Comment éviter la TLV ?
-                      </h6>
-                      <p className="mb-4" style={{ color: 'var(--foreground)' }}>
-                        Pour éviter cette taxe, vous devez occuper le logement comme résidence principale, le louer, ou le mettre à disposition gratuitement. Des exonérations existent pour certains cas particuliers (travaux importants, logement inhabitable, etc.).
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <ul className="list-disc list-inside space-y-2 mb-6" style={{ color: 'var(--foreground)' }}>
+                        <li>La taxe s'applique dans les zones tendues définies par décret</li>
+                        <li>Taux : 17% la première année, puis 34% les années suivantes de la valeur locative</li>
+                      </>
+                    )}
+                    {selectedCommune.taxType === 'THLV' && (
+                      <>
                         <li>Le logement doit être vacant depuis au moins 2 ans au 1er janvier de l'année d'imposition</li>
                         <li>La taxe est instituée par délibération de la commune ou de l'EPCI</li>
                         <li>Taux : entre 12,5% et 25% de la valeur locative (fixé par la collectivité)</li>
                         <li>La THLV ne s'applique pas dans les zones soumises à la TLV</li>
-                      </ul>
-                      
-                      <h6 
-                        className="mb-2"
-                        style={{
-                          color: 'var(--foreground)',
-                          fontSize: 'var(--text-base)',
-                          fontWeight: 'var(--font-weight-medium)',
-                          lineHeight: '1.5'
-                        }}
-                      >
-                        Comment éviter la THLV ?
-                      </h6>
-                      <p className="mb-4" style={{ color: 'var(--foreground)' }}>
-                        Pour éviter cette taxe, vous devez occuper le logement comme résidence principale, le louer, ou le mettre à disposition gratuitement. Contactez votre mairie pour connaître le taux applicable et les éventuelles exonérations locales.
-                      </p>
-                    </>
-                  )}
+                      </>
+                    )}
+                  </ul>
+                  
+                  <h6 
+                    className="mb-2"
+                    style={{
+                      color: 'var(--foreground)',
+                      fontSize: 'var(--text-base)',
+                      fontWeight: 'var(--font-weight-medium)',
+                      lineHeight: '1.5'
+                    }}
+                  >
+                    Comment éviter la {selectedCommune.taxType} ?
+                  </h6>
+                  <p className="mb-4" style={{ color: 'var(--foreground)' }}>
+                    Pour éviter cette taxe, vous devez occuper le logement comme résidence principale, le louer, ou le mettre à disposition gratuitement. Contactez votre mairie pour connaître le taux applicable et les éventuelles exonérations locales.
+                  </p>
                   
                   <div className="flex flex-wrap gap-3">
                     <a
