@@ -12,9 +12,17 @@ Module de recherche pour vérifier si une commune est concernée par la **Taxe s
 
 ## 📊 Données
 
-- **3 106 communes** soumises à la TLV (zones tendues)
-- **5 889 communes** soumises à la THLV
-- **25 880 communes** sans taxe spécifique
+- **3 063 communes** soumises à la TLV (zones tendues)
+- **6 410 communes** soumises à la THLV
+- **25 402 communes** sans taxe spécifique
+- **Total : 34 875 communes**
+
+**Sources :**
+- Décret du 22 décembre 2025 pour le zonage TLV
+- Fichier officiel TLV/THLV avec codes INSEE
+- Mapping des communes nouvelles 2019-2024 (176 correspondances)
+
+**Note :** 4 codes INSEE du fichier source (0,04%) n'ont pas pu être mappés car obsolètes ou correspondant à des arrondissements.
 
 Mise à jour : 19/01/2026
 
