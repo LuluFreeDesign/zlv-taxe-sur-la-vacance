@@ -83,7 +83,7 @@ export default function App() {
                       <>
                         <li>La taxe est instituée par délibération de la commune ou de l'intercommunalité</li>
                         <li>Le logement doit être vacant depuis au moins 2 ans au 1er janvier de l'année d'imposition</li>
-                        <li>Le taux applicable, fixé par la collectivité, est entre 12,5 % et 25 % de la valeur locative du bien</li>
+                        <li>Le taux applicable est fixé par la collectivité et est identique à celui de la taxe d'habitation sur les résidences secondaires</li>
                       </>
                     )}
                   </ul>
