@@ -110,39 +110,7 @@ export default function App() {
                       <p className="mb-4" style={{ color: 'var(--foreground)' }}>
                         Contactez votre mairie ou votre intercommunalité pour connaître les aides locales pour vous accompagner.
                       </p>
-                      
-                      <div className="flex flex-wrap gap-3">
-                        <a
-                          href="https://www.service-public.fr/particuliers/vosdroits/F31922"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 hover:opacity-90 transition-opacity"
-                          style={{
-                            backgroundColor: 'var(--primary)',
-                            color: 'var(--primary-foreground)',
-                            borderRadius: 'var(--radius)',
-                            fontWeight: 'var(--font-weight-medium)'
-                          }}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          En savoir plus sur Service-Public.fr
-                        </a>
-                        <a
-                          href="https://www.impots.gouv.fr"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 border hover:opacity-70 transition-opacity"
-                          style={{
-                            backgroundColor: 'transparent',
-                            color: 'var(--primary)',
-                            borderColor: 'var(--border)',
-                            borderRadius: 'var(--radius)',
-                            fontWeight: 'var(--font-weight-medium)'
-                          }}
-                        >
-                          Consulter mon espace impots.gouv.fr
-                        </a>
-                      </div>
+
                     </>
                   )}
                   
@@ -154,39 +122,7 @@ export default function App() {
                       <p className="mb-4" style={{ color: 'var(--foreground)' }}>
                         Pour connaître le taux d'imposition applicable, vous pouvez consulter l'<a href="https://www.data.gouv.fr/datasets/fiscalite-locale-des-particuliers" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>open data</a>, ou contacter votre mairie ou votre intercommunalité pour connaître également les aides locales pour vous accompagner.
                       </p>
-                      
-                      <div className="flex flex-wrap gap-3">
-                        <a
-                          href="https://www.service-public.fr/particuliers/vosdroits/F31922"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 hover:opacity-90 transition-opacity"
-                          style={{
-                            backgroundColor: 'var(--primary)',
-                            color: 'var(--primary-foreground)',
-                            borderRadius: 'var(--radius)',
-                            fontWeight: 'var(--font-weight-medium)'
-                          }}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          En savoir plus sur Service-Public.fr
-                        </a>
-                        <a
-                          href="https://www.impots.gouv.fr"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 border hover:opacity-70 transition-opacity"
-                          style={{
-                            backgroundColor: 'transparent',
-                            color: 'var(--primary)',
-                            borderColor: 'var(--border)',
-                            borderRadius: 'var(--radius)',
-                            fontWeight: 'var(--font-weight-medium)'
-                          }}
-                        >
-                          Consulter mon espace impots.gouv.fr
-                        </a>
-                      </div>
+
                     </>
                   )}
                 </div>

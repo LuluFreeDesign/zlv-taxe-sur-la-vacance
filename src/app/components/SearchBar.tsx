@@ -104,7 +104,7 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
             fontWeight: 'var(--font-weight-medium)'
           }}
         >
-          Saisissez la commune dans laquelle se situe votre logement vacant
+          Saisissez le nom ou le code INSEE de la commune dans laquelle se situe votre logement vacant
         </label>
         
         <style>
