@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { SearchBar } from '@/app/components/SearchBar';
 import { Callout } from '@/app/components/Callout';
 import { communes, CommuneData } from '@/data/communes';
-import { ExternalLink } from 'lucide-react';
 
 export default function App() {
   const [selectedCommune, setSelectedCommune] = useState<CommuneData | null>(null);
@@ -18,20 +17,20 @@ export default function App() {
       case 'TLV':
         return {
           type: 'warning' as const,
-          title: `Votre logement vacant est soumis à la Taxe sur les Logements Vacants (TLV)`,
-          message: `La commune de ${selectedCommune.name} est située en zone tendue. Si votre logement est vacant depuis plus d'un an, vous êtes redevable de la TLV. Le taux est de 17% la première année, puis 34% les années suivantes.`
+          title: `Votre logement se trouve dans une commune appliquant la Taxe sur les Logements Vacants (TLV)`,
+          message: `La commune de ${selectedCommune.name} est située en zone tendue.`
         };
       case 'THLV':
         return {
           type: 'warning' as const,
-          title: `Votre logement vacant est soumis à la Taxe d'Habitation sur les Logements Vacants (THLV)`,
-          message: `La commune de ${selectedCommune.name} a instauré la THLV. Si votre logement est vacant depuis plus de deux ans, vous êtes redevable de cette taxe. Le taux est fixé par délibération de la commune (entre 12,5% et 25% de la valeur locative).`
+          title: `Votre logement se trouve dans une commune appliquant la Taxe d'Habitation sur les Logements Vacants (THLV)`,
+          message: `La commune de ${selectedCommune.name} a instauré la THLV.`
         };
       case 'NONE':
         return {
           type: 'success' as const,
-          title: `Votre logement vacant n'est pas soumis à une taxe spécifique`,
-          message: `La commune de ${selectedCommune.name} n'est pas concernée par la TLV ni par la THLV. Vous n'êtes donc pas redevable d'une taxe spécifique sur les logements vacants.`
+          title: `Votre logement se trouve dans une commune qui n'applique pas encore de taxe sur la vacance`,
+          message: `La commune de ${selectedCommune.name} n'est pas concernée par la Taxe sur les Logements Vacants (TLV) et n'a pas instauré la Taxe d'Habitation sur les Logements Vacants (THLV).`
         };
     }
   };
@@ -75,17 +74,16 @@ export default function App() {
                   <ul className="list-disc list-inside space-y-2 mb-6" style={{ color: 'var(--foreground)' }}>
                     {selectedCommune.taxType === 'TLV' && (
                       <>
+                        <li>La taxe s'applique dans les zones tendues définies par <a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053143539" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>décret</a></li>
                         <li>Le logement doit être vacant depuis au moins 1 an au 1er janvier de l'année d'imposition</li>
-                        <li>La taxe s'applique dans les zones tendues définies par décret</li>
-                        <li>Taux : 17% la première année, puis 34% les années suivantes de la valeur locative</li>
+                        <li>Le taux applicable est 17 % de la valeur locative du bien la première année, puis 34 % les années suivantes</li>
                       </>
                     )}
                     {selectedCommune.taxType === 'THLV' && (
                       <>
+                        <li>La taxe est instituée par délibération de la commune ou de l'intercommunalité</li>
                         <li>Le logement doit être vacant depuis au moins 2 ans au 1er janvier de l'année d'imposition</li>
-                        <li>La taxe est instituée par délibération de la commune ou de l'EPCI</li>
-                        <li>Taux : entre 12,5% et 25% de la valeur locative (fixé par la collectivité)</li>
-                        <li>La THLV ne s'applique pas dans les zones soumises à la TLV</li>
+                        <li>Le taux applicable, fixé par la collectivité, est entre 12,5 % et 25 % de la valeur locative du bien</li>
                       </>
                     )}
                   </ul>
@@ -110,7 +108,6 @@ export default function App() {
                       <p className="mb-4" style={{ color: 'var(--foreground)' }}>
                         Contactez votre mairie ou votre intercommunalité pour connaître les aides locales pour vous accompagner.
                       </p>
-
                     </>
                   )}
                   
@@ -120,9 +117,8 @@ export default function App() {
                         Si le logement est occupé comme résidence principale, par vous-même, un locataire, ou à titre gratuit, vous n'êtes pas redevable de cette taxe. Si vous l'occupez comme résidence secondaire, vous serez redevable de la <a href="https://www.economie.gouv.fr/particuliers/impots-et-fiscalite/gerer-mes-impots-locaux/la-taxe-dhabitation-sur-les-residences-secondaires-comment-ca-marche" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Taxe d'habitation sur les résidences secondaires</a> dès la première année.
                       </p>
                       <p className="mb-4" style={{ color: 'var(--foreground)' }}>
-                        Pour connaître le taux d'imposition applicable, vous pouvez consulter l'<a href="https://www.data.gouv.fr/datasets/fiscalite-locale-des-particuliers" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>open data</a>, ou contacter votre mairie ou votre intercommunalité pour connaître également les aides locales pour vous accompagner.
+                        Pour connaître le taux d'imposition applicable, vous pouvez consulter le site <a href="https://www.data.gouv.fr/datasets/fiscalite-locale-des-particuliers" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>data.gouv.fr</a>, ou contacter votre mairie ou votre intercommunalité pour connaître également les aides locales pour vous accompagner.
                       </p>
-
                     </>
                   )}
                 </div>
