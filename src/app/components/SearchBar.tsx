@@ -179,16 +179,22 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
                 role="option"
                 aria-selected={selectedIndex === index}
                 onClick={() => handleSelectCommune(commune)}
-                className="px-4 py-2.5 cursor-pointer transition-colors border-b last:border-b-0"
+                className="px-4 py-3 cursor-pointer transition-colors border-b last:border-b-0"
                 style={{
                   backgroundColor: selectedIndex === index ? 'var(--muted)' : 'transparent',
                   borderColor: 'var(--border)',
-                  color: 'var(--foreground)',
-                  fontSize: 'var(--text-base)'
+                  color: 'var(--foreground)'
                 }}
                 onMouseEnter={() => setSelectedIndex(index)}
               >
-                {commune.name}
+                <div style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-weight-medium)', marginBottom: '0.25rem' }}>
+                  {commune.name}
+                </div>
+                <div style={{ fontSize: 'var(--text-sm)', color: 'var(--muted-foreground)' }}>
+                  {commune.postalCode && `Code postal : ${commune.postalCode}`}
+                  {commune.postalCode && commune.inseeCode && '\u00A0\u00A0\u00A0\u00A0'}
+                  {commune.inseeCode && `Code INSEE : ${commune.inseeCode}`}
+                </div>
               </li>
             ))}
           </ul>
