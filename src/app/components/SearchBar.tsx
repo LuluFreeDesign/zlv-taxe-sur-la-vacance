@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { CommuneData } from '@/data/communes';
+import { getSearchEngine } from '@/utils/communeSearch';
 
 interface SearchBarProps {
   onSelectCommune: (commune: CommuneData) => void;
@@ -13,14 +14,14 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchEngine = useMemo(() => getSearchEngine(), []);
 
-  // Filter communes based on search query (by name or INSEE code)
-  const filteredCommunes = searchQuery.trim().length >= 2
-    ? communes.filter((commune) =>
-        commune.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        commune.inseeCode.includes(searchQuery.trim())
-      ).slice(0, 10) // Limit to 10 results
-    : [];
+  // Memoized search results using optimized search engine
+  const filteredCommunes = useMemo(() => {
+    return searchQuery.trim().length >= 2
+      ? searchEngine.search(searchQuery, 10)
+      : [];
+  }, [searchQuery, searchEngine]);
 
   // Handle click outside to close suggestions
   useEffect(() => {
@@ -61,36 +62,29 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
     }
   };
 
-  const handleSelectCommune = (commune: CommuneData) => {
-    onSelectCommune(commune);
-    setSearchQuery('');
-    setShowSuggestions(false);
-    setSelectedIndex(-1);
-  };
+  const handleSelectCommune = useCallback(
+    (commune: CommuneData) => {
+      onSelectCommune(commune);
+      setSearchQuery('');
+      setShowSuggestions(false);
+      setSelectedIndex(-1);
+    },
+    [onSelectCommune]
+  );
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     if (!searchQuery.trim()) return;
-    
-    // Search for exact match (case insensitive) by name or INSEE code
-    const exactMatch = communes.find(
-      (commune) => commune.name.toLowerCase() === searchQuery.trim().toLowerCase() ||
-        commune.inseeCode === searchQuery.trim()
-    );
-    
+
+    // Use optimized search engine for exact match
+    const exactMatch = searchEngine.findExactMatch(searchQuery);
+
     if (exactMatch) {
       handleSelectCommune(exactMatch);
-    } else {
-      // If no exact match, try to find the first partial match by name or INSEE code
-      const partialMatch = communes.find((commune) =>
-        commune.name.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-        commune.inseeCode.includes(searchQuery.trim())
-      );
-      
-      if (partialMatch) {
-        handleSelectCommune(partialMatch);
-      }
+    } else if (filteredCommunes.length > 0) {
+      // If no exact match but partial matches exist, use first one
+      handleSelectCommune(filteredCommunes[0]);
     }
-  };
+  }, [searchQuery, filteredCommunes, searchEngine, handleSelectCommune]);
 
   return (
     <div ref={searchRef} className="relative w-full">
