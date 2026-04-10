@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { CommuneData } from '@/data/communes';
 import { getSearchEngine } from '@/utils/communeSearch';
+import { getDepartmentName } from '@/utils/departments';
 
 interface SearchBarProps {
   onSelectCommune: (commune: CommuneData) => void;
@@ -189,6 +190,11 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
               >
                 <div style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-weight-medium)', marginBottom: '0.25rem' }}>
                   {commune.name}
+                  {getDepartmentName(commune.inseeCode) && (
+                    <em style={{ fontWeight: 'var(--font-weight-normal)', color: 'var(--muted-foreground)', marginLeft: '0.5rem' }}>
+                      {getDepartmentName(commune.inseeCode)}
+                    </em>
+                  )}
                 </div>
                 <div style={{ fontSize: 'var(--text-sm)', color: 'var(--muted-foreground)' }}>
                   {commune.postalCode && `Code postal : ${commune.postalCode}`}
