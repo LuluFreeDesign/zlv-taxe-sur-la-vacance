@@ -1,14 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchBar } from '@/app/components/SearchBar';
 import { Callout } from '@/app/components/Callout';
 import { communes, CommuneData } from '@/data/communes';
 
+const DELIBERATIONS_API_URL = 'https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/deliberations-de-fiscalite-directe-locale-des-communes-2025-hors-taux/records';
+const FISCALITE_API_URL = 'https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/fiscalite-locale-des-particuliers/records';
+const TAUX_EXERCICE = 2024;
+
+function formatDate(isoDate: string): string {
+  return new Date(isoDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 export default function App() {
   const [selectedCommune, setSelectedCommune] = useState<CommuneData | null>(null);
+  const [thlvDate, setThlvDate] = useState<string | null>(null);
+  const [thlvDateLoading, setThlvDateLoading] = useState(false);
+  const [thlvRate, setThlvRate] = useState<number | null>(null);
+  const [thlvRateLoading, setThlvRateLoading] = useState(false);
 
   const handleSelectCommune = (commune: CommuneData) => {
     setSelectedCommune(commune);
   };
+
+  useEffect(() => {
+    if (!selectedCommune || selectedCommune.taxType !== 'THLV') {
+      setThlvDate(null);
+      setThlvRate(null);
+      return;
+    }
+
+    setThlvDateLoading(true);
+    setThlvDate(null);
+    fetch(`${DELIBERATIONS_API_URL}?where=depcom%3D%27${selectedCommune.inseeCode}%27&select=thlvdat&limit=1`)
+      .then(res => res.json())
+      .then(data => { setThlvDate(data?.results?.[0]?.thlvdat ?? null); })
+      .catch(() => setThlvDate(null))
+      .finally(() => setThlvDateLoading(false));
+
+    setThlvRateLoading(true);
+    setThlvRate(null);
+    fetch(`${FISCALITE_API_URL}?where=insee_com%3D%27${selectedCommune.inseeCode}%27%20AND%20exercice%3D${TAUX_EXERCICE}&select=taux_global_th&limit=1`)
+      .then(res => res.json())
+      .then(data => { setThlvRate(data?.results?.[0]?.taux_global_th ?? null); })
+      .catch(() => setThlvRate(null))
+      .finally(() => setThlvRateLoading(false));
+  }, [selectedCommune]);
 
   const getTaxInfo = () => {
     if (!selectedCommune) return null;
@@ -76,14 +112,22 @@ export default function App() {
                       <>
                         <li>La taxe s'applique dans les zones tendues définies par <a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053143539" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>décret</a></li>
                         <li>Le logement doit être vacant depuis au moins 1 an au 1er janvier de l'année d'imposition</li>
-                        <li>Le taux applicable est 17 % de la valeur locative du bien la première année, puis 34 % les années suivantes</li>
+                        <li>Le taux applicable est 17 % de la valeur locative cadastrale du bien la première année, puis 34 % les années suivantes</li>
                       </>
                     )}
                     {selectedCommune.taxType === 'THLV' && (
                       <>
-                        <li>La taxe est instituée par délibération de la commune ou de l'intercommunalité</li>
+                        <li>
+                          La taxe est instituée par délibération de la commune ou de l'intercommunalité
+                          {thlvDateLoading && <span style={{ color: 'var(--muted-foreground)', fontStyle: 'italic' }}> (chargement de la date…)</span>}
+                          {!thlvDateLoading && thlvDate && <span> — délibération du <strong>{formatDate(thlvDate)}</strong></span>}
+                        </li>
                         <li>Le logement doit être vacant depuis au moins 2 ans au 1er janvier de l'année d'imposition</li>
-                        <li>Le taux applicable est fixé par la collectivité et est identique à celui de la taxe d'habitation sur les résidences secondaires</li>
+                        <li>
+                          Le taux applicable est fixé par la collectivité et est identique à celui de la taxe d'habitation sur les résidences secondaires
+                          {thlvRateLoading && <span style={{ color: 'var(--muted-foreground)', fontStyle: 'italic' }}> (chargement du taux…)</span>}
+                          {!thlvRateLoading && thlvRate !== null && <span> — taux {TAUX_EXERCICE} : <strong>{thlvRate} %</strong></span>}
+                        </li>
                       </>
                     )}
                   </ul>
@@ -117,7 +161,7 @@ export default function App() {
                         Si le logement est occupé comme résidence principale, par vous-même, un locataire, ou à titre gratuit, vous n'êtes pas redevable de cette taxe. Si vous l'occupez comme résidence secondaire, vous serez redevable de la <a href="https://www.economie.gouv.fr/particuliers/impots-et-fiscalite/gerer-mes-impots-locaux/la-taxe-dhabitation-sur-les-residences-secondaires-comment-ca-marche" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Taxe d'habitation sur les résidences secondaires</a> dès la première année.
                       </p>
                       <p className="mb-4" style={{ color: 'var(--foreground)' }}>
-                        Pour connaître le taux d'imposition applicable, vous pouvez consulter le site <a href="https://www.data.gouv.fr/datasets/fiscalite-locale-des-particuliers" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>data.gouv.fr</a>, ou contacter votre mairie ou votre intercommunalité pour connaître également les aides locales pour vous accompagner.
+                        Contactez votre mairie ou votre intercommunalité pour connaître les aides locales pour vous accompagner.
                       </p>
                     </>
                   )}
