@@ -112,7 +112,7 @@ export default function App() {
                       <>
                         <li>La taxe s'applique dans les zones tendues définies par <a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053143539" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>décret</a></li>
                         <li>Le logement doit être vacant depuis au moins 1 an au 1er janvier de l'année d'imposition</li>
-                        <li>Le taux applicable est 17 % de la valeur locative cadastrale du bien la première année, puis 34 % les années suivantes</li>
+                        <li>Le taux applicable est 17 % de la valeur locative cadastrale du bien la première année de taxation, puis 34 % les années suivantes</li>
                       </>
                     )}
                     {selectedCommune.taxType === 'THLV' && (
