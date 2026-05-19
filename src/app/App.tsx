@@ -53,20 +53,20 @@ export default function App() {
       case 'TLV':
         return {
           type: 'warning' as const,
-          title: `Votre logement se trouve dans une commune appliquant la Taxe sur les Logements Vacants (TLV)`,
-          message: `La commune de ${selectedCommune.name} est située en zone tendue.`
+          title: `${selectedCommune.name} est une commune appliquant la Taxe sur les Logements Vacants (TLV)`,
+          message: `Cette commune est située en zone tendue.`
         };
       case 'THLV':
         return {
           type: 'warning' as const,
-          title: `Votre logement se trouve dans une commune appliquant la Taxe d'Habitation sur les Logements Vacants (THLV)`,
-          message: `La commune de ${selectedCommune.name} a instauré la THLV.`
+          title: `${selectedCommune.name} est une commune appliquant la Taxe d'Habitation sur les Logements Vacants (THLV)`,
+          message: `Cette commune a instauré la THLV.`
         };
       case 'NONE':
         return {
           type: 'success' as const,
-          title: `Votre logement se trouve dans une commune qui n'applique pas encore de taxe sur la vacance`,
-          message: `La commune de ${selectedCommune.name} n'est pas concernée par la Taxe sur les Logements Vacants (TLV) et n'a pas instauré la Taxe d'Habitation sur les Logements Vacants (THLV).`
+          title: `${selectedCommune.name} n'applique pas encore de taxe sur la vacance`,
+          message: `Cette commune n'est pas concernée par la Taxe sur les Logements Vacants (TLV) et n'a pas instauré la Taxe d'Habitation sur les Logements Vacants (THLV).`
         };
     }
   };
