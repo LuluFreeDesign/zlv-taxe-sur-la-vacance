@@ -135,9 +135,15 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
               outline: 'none',
               boxShadow: 'inset 0 -2px 0 0 var(--primary)'
             }}
+            role="combobox"
             aria-autocomplete="list"
             aria-controls="commune-suggestions"
             aria-expanded={showSuggestions && filteredCommunes.length > 0}
+            aria-activedescendant={
+              showSuggestions && selectedIndex >= 0 && filteredCommunes.length > 0
+                ? `commune-option-${selectedIndex}`
+                : undefined
+            }
           />
           
           <button
@@ -164,6 +170,7 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
           <ul
             id="commune-suggestions"
             role="listbox"
+            aria-label="Communes suggérées"
             className="absolute z-50 w-full mt-1 border overflow-hidden"
             style={{
               borderColor: 'var(--border)',
@@ -177,6 +184,7 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
             {filteredCommunes.map((commune, index) => (
               <li
                 key={index}
+                id={`commune-option-${index}`}
                 role="option"
                 aria-selected={selectedIndex === index}
                 onClick={() => handleSelectCommune(commune)}
@@ -205,6 +213,11 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
             ))}
           </ul>
         )}
+
+        <div role="status" className="sr-only">
+          {showSuggestions && searchQuery.trim().length >= 2 && filteredCommunes.length > 0 &&
+            `${filteredCommunes.length} commune${filteredCommunes.length > 1 ? 's' : ''} trouvée${filteredCommunes.length > 1 ? 's' : ''}, utilisez les flèches pour naviguer`}
+        </div>
 
         {/* No results message */}
         {showSuggestions && searchQuery.trim().length >= 2 && filteredCommunes.length === 0 && (
