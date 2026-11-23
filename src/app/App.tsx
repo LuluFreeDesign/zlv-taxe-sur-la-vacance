@@ -85,6 +85,7 @@ export default function App() {
             communes={communes}
           />
 
+          <div role="status" aria-live="polite">
           {selectedCommune && taxInfo && (
             <>
               <Callout
@@ -169,6 +170,7 @@ export default function App() {
               )}
             </>
           )}
+          </div>
         </main>
       </div>
     </div>
