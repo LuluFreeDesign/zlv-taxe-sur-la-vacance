@@ -109,10 +109,6 @@ export function SearchBar({ onSelectCommune, communes }: SearchBarProps) {
               opacity: 0.6;
               font-style: italic;
             }
-            #commune-search:focus-visible {
-              outline: 2px solid #0a76f6;
-              outline-offset: 2px;
-            }
           `}
         </style>
 
